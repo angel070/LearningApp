@@ -1,0 +1,79 @@
+﻿@model Learning.Models.ProgrammeViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Programmes</h2>
+<hr />
+<p style="margin-left:890px">
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i>Add Programme</button>
+</p>
+<table class="table table-bordered table-striped" id="example">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammeCreate.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammeCreate.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammeCreate.Description)
+            </th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProgrammeIndex)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">create Programme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               
+                @Html.Partial("createProgramme",Model.ProgrammeCreate)
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scrip{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

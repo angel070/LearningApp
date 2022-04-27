@@ -1,0 +1,220 @@
+﻿@model Learning.Models.QuestionViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnAddOption").click(function () {
+            AddOptionIntoList();
+        });
+
+        $("#btnSave").click(function () {
+            SaveQuestionsAndOptions();
+        });
+
+    });
+
+    function SaveQuestionsAndOptions() {
+        if ($("#tblOption tr").length !== 4) {
+            alert("Option should not be less or more than 4");
+            return false;
+        }
+
+        var answerText = "";
+        var AnswerValid = undefined;
+        $.each($("#tblOption tr"), function () {
+            answerText = $(this).find("td:eq(0) input[type=radio]:checked").val();
+            if (answerText !== undefined) {
+                AnswerValid = answerText;
+            }
+
+        });
+
+        if (AnswerValid === undefined) {
+            alert("Select The answer");
+            return false;
+        }
+         
+        
+        var ListOfOptions = [];
+        var AnswerTextData = "";
+        var QuestionOption = {};
+        $.each($("#tblOption tr"), function () {
+            answerText= $(this).find("td:eq(0) input[type=radio]:checked").val();
+            var option= $(this).find("td:eq(0) input[type=radio]").val();
+
+            if (answerText !== undefined) {
+                AnswerTextData = answerText;
+            }
+            ListOfOptions.push(option);
+        });
+
+        QuestionOption.ListOfOptions = ListOfOptions;
+        QuestionOption.AnswerText = AnswerTextData;
+        QuestionOption.Question= $("#QuestionName").val();
+        QuestionOption.Reason = $("#txtReason").val();
+        QuestionOption.TopicId = $("#txtTopicId").val();
+
+        
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            data: JSON.stringify(QuestionOption),
+            url: '/Question/Create',
+            contentType:'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.success == true)
+                {
+                    alert(data.message);
+                    $("#QuestionName").val('');
+                    $("#QuestionName").focus();
+                    $("#txtOptionName").val();
+                    $("#tblOption tr").remove();
+                    $("#txtTopicId").val('');
+                    $("#txtReason").val('');
+                }
+                else {
+                    alert(data.message);
+                }
+             },
+            error: function () {
+                alert("There is some problem to process your request.");
+            }
+        })
+    }
+
+    function AddOptionIntoList() {
+
+        if ($("#QuestionName").val() === "") {
+            alert("Question Name should not be empty");
+            $("#QuestionNAme").focus();
+            return false;
+        }
+
+        if ($("#txtOptionName").val() === "") {
+            alert("Option Name should not be empty");
+            $("#txtOptionName").focus();
+            return false;
+        }
+
+        if ($("#tblOption tr").length === 4) {
+
+            $("#txtOptionName").focus();
+            $("#txtOptionName").val('');
+            alert("Option should not be more than 4");
+            return false;
+        }
+
+        var IsSuccess = false;
+        $.each($("#tblOption tr"), function () {
+
+            var listedvalue = $(this).find("td:eq(0) input[type=radio]").val();
+
+            if (listedvalue === $("#txtOptionName").val()) {
+
+                $("#txtOptionName").focus();
+                $("#txtOptionName").val('');
+                alert("This Option is already exist");
+                IsSuccess = true;
+                    
+            }
+        });
+         
+        if(IsSuccess === true) {
+            return false;
+        }
+
+        var OptionName = $("#txtOptionName").val();
+        var rowadded = "<tr><td> <input type='radio' value=" + OptionName + " name='OptionName' /> " + OptionName + "</td></tr>";
+
+        $("#tblOption").append(rowadded);
+        $("#txtOptionName").focus();
+        $("#txtOptionName").val('');
+
+    }
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Question</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Quest, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quest, new { htmlAttributes = new { @class = "form-control", @id = "QuestionName" } })
+                @Html.ValidationMessageFor(model => model.Quest, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Ans, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ans, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ans, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", @id = "txtReason" } })
+                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.Opt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Opt, new { htmlAttributes = new { @class = "form-control", @id = "txtOptionName" } })
+                @Html.ValidationMessageFor(model => model.Opt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(model => model.TopicId, "TopicId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TopicId", ViewBag.TopicDD as SelectList, "Select Topic", htmlAttributes: new { @class = "form-control", @id = "txtTopicId" })
+                @Html.ValidationMessageFor(model => model.TopicId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+        <div class="row">
+          
+
+            <div class="d-flex">
+                <div class="form-group col-md-6 mt-4">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Add Option" class="btn btn-primary" id="btnAddOption" name="option" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ }
+
+<table id="tblOption" class="table table-condensed table-borderless" style="width:100%">
+
+</table>
+
+<div class="">
+    <div class="form-group">
+      <input type="submit" value="Save" name="Save" id="btnSave" class="btn btn-primary mr-5" />
+    </div>
+</div>
+

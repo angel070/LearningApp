@@ -1,0 +1,103 @@
+﻿@model Learning.Models.CourseViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Courses</h2>
+
+<div class="card">
+
+    <div class="card-body">
+        <p >
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i>Add Course</button>
+        </p>
+        <table class="table table-bordered table-hover" id="example">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCreate.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCreate.Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCreate.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCreate.level)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseCreate.ProgrammeId)
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.CourseIndex)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.level)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProgrammeId)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Courses</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @Html.Partial("Create", Model.CourseCreate)
+            </div>
+            <!--<div class="modal-footer">
+            <div class="form-group d-flex">
+                <div class="form-group">
+
+                <input type="submit" value="Create" class="btn btn-primary" />-->
+            @* <a href="#" class="btn btn-outline-primary"><i class="fa fa-plus"></i>Add Course</a>*@
+            <!--<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+           </div>
+        </div>-->
+        </div>
+    </div>
+</div>
+
+@section scrip{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

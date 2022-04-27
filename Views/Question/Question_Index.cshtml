@@ -1,0 +1,113 @@
+﻿@model Learning.Models.QuestionViewModel
+
+<p style="margin-left:910px">
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa fa-plus"></i>Add Question</button>
+</p>
+<table class="table table-bordered table-striped" id="example">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionCreate.Topic.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionCreate.Quest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionCreate.Answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionCreate.Reason)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.QuestionIndex)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Topic.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Answer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            </div>
+            <div class="modal-body">
+
+                <h2>Select type of questions you want to add</h2>
+
+            </div>
+            <div class="modal-footer">
+            <div class="form-group d-flex">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#QuestModal"><i class="fa fa-plus"></i>Short Question</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal1"><i class="fa fa-plus"></i>Add Course</button>
+                    @*   <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Multiple choice</button>*@
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="QuestModal" tabindex="1" aria-labelledby="QuestModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Questions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @Html.Partial("Create", Model.QuestionCreate)
+
+
+            </div>
+            <!--<div class="modal-footer">
+            <div class="form-group d-flex">
+                <div class="form-group">
+
+                <input type="submit" value="Create" class="btn btn-primary" />-->
+            @* <a href="#" class="btn btn-outline-primary"><i class="fa fa-plus"></i>Add Course</a>*@
+            <!--<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+               </div>
+            </div>-->
+        </div>
+    </div>
+
+</div>
+
+
+@section scrip{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

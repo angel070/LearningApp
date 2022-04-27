@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Learning.Models.Quiz>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-borderless">
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            <a href="~/Quiz/Qui" id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+        </td>
+    </tr>
+   
+}
+
+</table>

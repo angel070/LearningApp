@@ -1,0 +1,102 @@
+﻿
+<!---<div class="container">
+    <div class="screen">
+
+        <div class="screen__content">
+
+            <form class="login">
+                <h6 style="text-align: center; font-weight: 700;">LEARNING SYSTEM</h6>
+                <hr />
+                <div>
+                    <img style="width:80px; margin-bottom:40px; margin-left:75px" src="~/assets/images/small/img-1.jpg" />
+
+                </div>
+                <div class="login__field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" class="login__input form-control" placeholder="User name / Email" name="Username">
+                </div>
+                <div class="login__field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" class="login__input" placeholder="Password" name="Password">
+                </div>
+                <div class="d-flex ">
+                    <a href="~/Register/Login" class="btn btn-primary login__submit m-4">
+                        <span class="button__text">Login </span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </a>-->
+@*  <button class="button login__submit m-lg-4">
+        <span class="button__text">SignUp </span>
+        <i class="button__icon fas fa-chevron-right"></i>
+    </button>*@
+
+<!--<a href="~/Register/Create" class="btn btn-primary login__submit m-lg-4">
+                        <span class="button__text">Signup</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                   </a>
+                </div>
+            </form>
+            <div class="social-login">
+
+                <div class="social-icons">
+                    <a href="#" class="social-login__icon fab fa-instagram"></a>
+                    <a href="#" class="social-login__icon fab fa-facebook"></a>
+                    <a href="#" class="social-login__icon fab fa-twitter"></a>
+                </div>
+            </div>
+        </div>
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>
+    </div>
+</div>-->
+
+@model Learning.ViewModel.Login
+
+@{
+    ViewBag.Title = "LoginPage";
+}
+
+<h2>LoginPage</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+      
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+

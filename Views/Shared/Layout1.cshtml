@@ -1,0 +1,38 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>Learning Application</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    
+
+
+        <div class="cont">
+            @RenderBody()
+        </div>
+
+        <footer class="footer mt-4">
+            <div class="container-fluid ">
+                <div class="row">
+                    <div class="col-sm-6 mt-4">
+                        <script>document.write(new Date().getFullYear())</script> © eLearning.
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end d-none d-sm-block">
+                            Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="https://themesbrand.com/" target="_blank" class="text-reset">Themesbrand</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>
+
